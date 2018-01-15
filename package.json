@@ -1,0 +1,28 @@
+{
+  "name": "constructor-hangman",
+  "version": "1.0.0",
+  "description": "a hangman command-line game using constructor functions",
+  "main": "game.js",
+  "dependencies": {
+    "inquirer": "^5.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiVinson/constructor-hangman.git"
+  },
+  "keywords": [
+    "hangman",
+    "constructor",
+    "functions"
+  ],
+  "author": "Lisa Vinson <lrv0828@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LiVinson/constructor-hangman/issues"
+  },
+  "homepage": "https://github.com/LiVinson/constructor-hangman#readme"
+}
