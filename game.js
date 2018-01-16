@@ -6,7 +6,7 @@ var inquirer = require("inquirer");
 var wordBank = ["cat", "dog", "bird", "monkey"];
 var guessWord;
 var noGuesses = 6;
-var prevGuesses = [];
+var prevGuesses = ["q", "s"];
 
 
 function newGame() {
@@ -16,56 +16,67 @@ function newGame() {
         message: "Welcome to Hangman! Would you like to play?",
         default: true,
 
-    }]).then(function(answer) {        
+    }]).then(function (answer) {
         if (answer.newGame) {
             console.log("great!");
             var index = Math.floor(Math.random() * wordBank.length);
             guessWord = wordBank[index]; //global
-            console.log(guessWord);
+            var guessWordObj = new CreateWord(guessWord);
+            playGame(guessWordObj);
             return;
-            // var guessWordObj = new CreateWord(guessWord);
-            // playGame(guessWordObj);
-        };
-        console.log("Okay, maybe next time.")
-
-  })
+        } else {
+            console.log("Okay, maybe next time.");
+        }
+    })
 };
 
 
-function playGame(word) {
+function playGame(wordObj) {
+    console.log("Play game function!");
+  
+    console.log(`The word to guess is ${wordObj.word}`);
 
-    //Decide what to console. log
+    //  Display dashes for word
 
     inquirer.prompt([{
-        name: "userGuess",
-        message: "Please guess a letter using your keyboard",
         type: "input",
-        validate: function (value) {
+        name: "userGuess",
+        message: "Please guess  letter using your keyboard:",
+        validate: function(userPress) {
+            console.log(`User chose: ${userPress}`);
             //Regular expression - Used to validate if input is a letter
-            value = value.match(/^[A-Za-z]+$/);
-            console.log(value); //If there is a match, should return that letter in an array or returns null (no match)
-
-            if (value) {
+            if (userPress.match(/^[A-Za-z]+$/)) {
                 console.log("Your guess is a letter");
-                if (prevGuesses.indexOf(value)) {
-                    return `You already guessed ${value}. Please select another letter`
+                prevGuesses.indexOf(userPress)
+                if (prevGuesses.indexOf(userPress)===-1) {
+                    return true;
                 }
-                return true;
-
-            } else {
-                console.log("Your guess is not a letter");
-                return "Please select a letter A - Z";
-            }
+                return `You already guessed ${userPress}. Please select another letter`;
+            }; 
+            return "Please select a letter A - Z";
         }
-    }]).then(function (answer) {
-        console.log(answers);
-    })
+    }]).then(compareGuess(answer.userGuess));
 
-}
+};
 
+function compareGuess(){
+
+
+
+
+};
+
+//Constructor for word to be guessed - to be moved to seperate file
 function CreateWord(word) {
-    //Determine what properties are needed in constructor for word
+    this.word = word;
+    this.blanks=function(this){
+        //for each character in the string "word", check if it is a letter or a string
+        //if a letter, replace with a "_ "
+        //if a space, leave as is
+        //return _ _ _
 
+    };
+    this.guessed=false; 
 
 };
 
