@@ -4,9 +4,10 @@ var inquirer = require("inquirer");
 
 //Global Variables
 var wordBank = ["cat", "dog", "bird", "monkey"];
+//J Cole, Kendrick Lamar, Chance the Rapper, Russ, Logic, Vic Mensa,
 var guessWord;
 var noGuesses = 6;
-var prevGuesses = ["q", "s"];
+var prevGuesses = [];
 
 
 function newGame() {
@@ -18,7 +19,7 @@ function newGame() {
 
     }]).then(function (answer) {
         if (answer.newGame) {
-            console.log("great!");
+            console.log("great, let's play!");
             var index = Math.floor(Math.random() * wordBank.length);
             guessWord = wordBank[index]; //global
             var guessWordObj = new CreateWord(guessWord);
@@ -33,10 +34,10 @@ function newGame() {
 
 function playGame(wordObj) {
     console.log("Play game function!");
-  
-    console.log(`The word to guess is ${wordObj.word}`);
+      console.log(`The word to guess is ${wordObj.word}`);
 
     //  Display dashes for word
+    //Display guesses remaining
 
     inquirer.prompt([{
         type: "input",
@@ -60,23 +61,42 @@ function playGame(wordObj) {
 };
 
 function compareGuess(){
+    //Determine if letter entered is part of word
 
+    //If yes: Update the display with letter replacing dashes. Prompt user to guess again
+    //If no, reduce guesses by 1
+        //If guesses>0, prompt user to guess again
+        //If guesses=0, endGame();
+};
 
+function endGame(){
+    //if solved:
+        //Congrats!
 
-
+    //If not solved:
+        //You lost:
+        //Display correct answer
+    
+    //Display info about word
+    //Ask user to play again. 
+        //If yes: newGame();
+        //If no: return
 };
 
 //Constructor for word to be guessed - to be moved to seperate file
 function CreateWord(word) {
     this.word = word;
-    this.blanks=function(this){
-        //for each character in the string "word", check if it is a letter or a string
-        //if a letter, replace with a "_ "
-        //if a space, leave as is
-        //return _ _ _
-
+    this.numGuessed = 0;
+    this.wordArr - word.split("");
+    this.letterArr = function(this){
+        var i = 0;
+        this.wordArr.forEach(function(letter){
+            i = new Letters(letter);
+            letterArr.push(i) //stopped here
+        })
     };
     this.guessed=false; 
+    //Create a letter object for each letter in the chosen word using letter Constructor
 
 };
 
@@ -88,39 +108,14 @@ function Letters() {
 //CODE TO RUN:
 newGame();
 
-//Inquirer:
 
-//question 1:
-// message: Welcome to Hangman! Guess a letter using your keyboard
-//type: input
-//Validation:
-//Confirm it is a letter
-//Make it capital
-//Check if already guessed
-//
-
-
-//PseudoCode
-
-//A word is chosen at random from the word database
-
-//Dashes are displayed for each letter in the word
-
-//User is prompted to guess a letter
-//Validate that it is a letter.
-//Make it capital
-
-//Check if it was previously chosen.
-// If so, prompt another letter
-//If not, check if that letter is contained in the word
-
-//If yes, display that letter
-//Check if all letters are chosen:
-//If yes: congratulate user, ask to play again
-
-//If no, prompt user to choose another letter
-
-//If no, decrease # of guesses remaining,
-//If # of guesses = 0: Tell user they lost, display correct word.
-
-//If # of guesses remaining is greather than 0, prompt user for another guess
+//Next Steps:
+    //Determine properties needed in Word
+    //Determine properties needed in Letter
+    //Determine how to run game
+    //Determine how to run game w/ spaces
+    //Determine how to end game
+    //Choose theme, update array - Hip Hop Hangman
+    //Move constructors to new files
+    //Update ReadMe
+    //Add to portfolio
