@@ -26,8 +26,11 @@ function newGame() {
             console.log("great, let's play!");
             var index = Math.floor(Math.random() * wordBank.length); //Pick a word at random from the wordbank array
             guessWord = wordBank[index]; //global
-            var guessWordObj = new CreateWord(guessWord); //Create a word object, and pass to playGame function
-            playGame(guessWordObj);
+            var guessWordObj = new CreateWord(guessWord); //Create a word object, 
+
+            guessWordObj.addLetters(); //Creates initial array inside of word object
+            console.log(`Array before edits: ${guessWordObj.letterArr}`)
+            playGame(guessWordObj); //Pass word object into playGame function
             return;
         } else {
             console.log("Okay, maybe next time.");
@@ -39,42 +42,33 @@ function newGame() {
 function playGame(wordObj) {
     console.log("Play game function!");
     console.log(`The word to guess is ${wordObj.word}`);
-       
-    //  Display dashes for word
-    //Display guesses remaining
-console.log("-----------------------")
-    inquirer.prompt([{
-        type: "input",
-        name: "userGuess",
-        message: "Please guess  letter using your keyboard:",
-        validate: function (userPress) {
-            console.log(`\nUser chose: ${userPress}`);
-            //Regular expression - Used to validate if input is a letter
-            if (userPress.match(/^[A-Za-z]+$/)) {
-                console.log("Your guess is a letter");
-                prevGuesses.indexOf(userPress)
-                if (prevGuesses.indexOf(userPress) === -1) {
-                    return true;
-                }
-                return `You already guessed ${userPress}. Please select another letter`;
-            };
-            return "Please select a letter A - Z";
-        }
-    }]).then(compareGuess);
-
+    console.log(`guesses remaining: ${noGuesses}`);
+    if (noGuesses < 1) {
+        endGame();
+    } else {
+        wordObj.displayWord(); //  Display dashes for word
+        console.log(`Guesses Remaining: ${noGuesses}`);
+        //Display guesses remaining
+        console.log("-----------------------") inquirer.prompt([{
+            type: "input",
+            name: "userGuess",
+            message: "Please guess  letter using your keyboard:",
+            validate: function (userPress) {
+                console.log(`\nUser chose: ${userPress}`);
+                //Regular expression - Used to validate if input is a letter
+                if (userPress.match(/^[A-Za-z]+$/)) {
+                    console.log("Your guess is a letter");
+                    prevGuesses.indexOf(userPress)
+                    if (prevGuesses.indexOf(userPress) === -1) {
+                        return true;
+                    }
+                    return `You already guessed ${userPress}. Please select another letter`;
+                };
+                return "Please select a letter A - Z";
+            }
+        }]).then(wordObj.compareGuess);
+    }
 };
-
-var compareGuess = function(letter){
-    console.log("compareGuess function!");
-    console.log(letter.userGuess);
-
-    //Determine if letter entered is part of word
-
-    //If yes: Update the display with letter replacing dashes. Prompt user to guess again
-    //If no, reduce guesses by 1
-    //If guesses>0, prompt user to guess again
-    //If guesses=0, endGame();
-}
 
 
 function endGame() {
@@ -95,16 +89,15 @@ function endGame() {
 function CreateWord(word) {
     this.word = word;
     this.letterArr = [];
+    this.guessed = false;
 
+    //Methods (add to prototype property)
     this.addLetters = function (word) {
         var arr = word.split();
         arr.forEach(function (char) {
             this.letterArr.push(new Letters(char));
         })
-
     };
-
-    this.guessed = false;
 
     this.displayWord = function () {
         var wordDisplay = "";
@@ -115,9 +108,24 @@ function CreateWord(word) {
                 wordDisplay += letterObj.blank;
             }
         })
-        return wordDisplay;
+        console.log(wordDisplay);
+    };
+
+    this.compareGuess = function (answer) {
+        console.log("compareGuess function!");
+        console.log(answer.userGuess);
+
+        this.letterArr.forEach(function (item) {
+            if (item === answer.userGuess) {
+                item.guessed = true;
+            };
+
+        });
+        noGuesses--;
+        this.displayWord();
+        playGame(this);
     }
-};
+}
 
 //Create a letter object for each letter in the chosen word using letter Constructor
 
