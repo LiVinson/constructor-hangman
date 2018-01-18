@@ -43,7 +43,7 @@ function playGame(wordObj) {
     console.log("Play game function!");
     console.log(`The word to guess is ${wordObj.word}`);
     // console.log(`Guesses Remaining: ${noGuesses}`);
-    if (noGuesses < 1) {e
+    if (noGuesses < 1) {
         console.log("You have no more guesses!")
         endGame();
     } else {
@@ -70,9 +70,12 @@ function playGame(wordObj) {
                 };
                 return "Please select a letter A - Z";
             }
-        }]).then(function () {
-            console.log("Question Received!"); //wordObj.compareGuess);
+        }]).then(function(answer){
+            console.log(wordObj.letterArr); //This is logging array without the letters updated...
+            wordObj.compareGuess(answer);
         })
+            
+        
     }
 };
 
