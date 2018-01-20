@@ -4,79 +4,87 @@ var Letters = require("./createLetters.js"); //Determine if this is needed...
 //Constructor for word to be guessed - to be moved to seperate file
 var CreateWord = function (word) {
     this.word = word;
-    this.letterArr = new Array();
-    this.guessed = false;
+    // this.letterArr = new Array();
+    this.solved = false;
+
+    this.letterArr = [];
+
+    this.noGuesses = 6;
+
 
     //Takes in the guessword, splits each character into array, calls Letters function, pushes result into this.array
-    this.addLetters = function () {
+    this.createArr = function () {
         // console.log(this.word);
-        var arr = this.word.split("");
+        var arr = word.split("");
         // console.log(arr);
-        var holderArr = [];
-        arr.forEach(function (char) {
-            // console.log(char);
-            var newLetter = new Letters(char);
-            // console.log(newLetter);
-            holderArr.push(newLetter);
-            
-        });
-        this.letterArr = holderArr;
-        console.log(this.letterArr);
-        this.letterArr.forEach(function(char){
-            char.firstDisplay();
-        })
-        // console.log(this.letterArr);
+
+        for (var i = 0; i < arr.length; i++) {
+            if(arr[i] !== " "){
+
+                
+            }
+            var newLetter = new Letters(arr[i]);
+            newLetter.specChars();
+            this.letterArr.push(newLetter);
+        };
+
     };
 
     //Method to display letters or dashes for each letter in word
     this.displayWord = function () {
+        // console.log(arr);
         var wordDisplay = "";
         // console.log(this.letterArr);
-        (this.letterArr).forEach(function (letterObj) {
-            letterObj.displayLetter();
-            wordDisplay += letterObj.display;
-            // if (letterObj.guessed) {
-            //     wordDisplay += letterObj.letter;
-            // } else {
-            //     wordDisplay += letterObj.blank;
-            // }
+        this.letterArr.forEach(function (letterObj) {
+
+            if (letterObj.guessed) {
+                wordDisplay += letterObj.letter;
+            } else {
+                wordDisplay += letterObj.blank;
+            }
         })
-        return wordDisplay;
+        console.log(`\n${wordDisplay}\n`);
+
     };
 
-    this.compareGuess = function (wordObj, answer) {
-        console.log("compareGuess function!");
+    this.compareGuess = function (answer) {
+        // console.log("compareGuess function!");
         var userGuess = (answer.userGuess.toUpperCase());
-        console.log(userGuess);
-        // prevGuesses.push(userGuess);
-        // console.log(prevGuesses);
-        console.log(this);
-        console.log(this.letterArr);
-        this.letterArr.forEach(function(char) {
+        // console.log(userGuess);
+        var match = false;
+        for (var k = 0; k < this.letterArr.length; k++){
+            if (this.letterArr[k].letter.toUpperCase() === userGuess){
+                console.log("Correct!");
+                this.letterArr[k].guessed = true;
+                match = true;
+            }
 
-            if (char.letter === userGuess) {
-                char.guessed = true;
-                char.displayLetter();
-                console.log(char.display);
-            };
+        };
 
-        });
-        noGuesses--;
-        playGame(this);
+        if (match === false){
+            console.log("No matches!")
+            this.noGuesses--;
+        };
+
+        return match;
+    };
+
+    this.checkSolved = function(){
+        // console.log("Check solved function!");
+
+        for (var j = 0; j < this.letterArr.length; j++){
+            if(this.letterArr[j].guessed === false){
+
+                return false;
+            }
+        };
+
+        this.solved = true;
+        return true;
     }
 };
 
-// var testWord = new CreateWord("CAT");
-// console.log(testWord);
-// console.log(testWord.letterArr);
-// console.log(testWord.guessed);
-// testWord.addLetters(this.word);
-// console.log(testWord.letterArr);
 
-
-// var testWord = new CreateWord("DOG");
-// testWord.addLetters();
-// console.log((testWord.displayWord(testWord.letterArr)));
 
 
 module.exports = CreateWord;
