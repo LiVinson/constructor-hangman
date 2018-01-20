@@ -15,7 +15,7 @@ To run the application, the following are required:
 
 Once the constructor-hangman is cloned locally, and any requirements installed, the application is run by entering `node game.js` in the command line.
 
-## How to Play
+### How to Play
 
 The user will be prompted to confirm play. Once confirmed, the name of a rapper is selected from and a word bank, and a dash for each letter of his/her name is displayed.
 
@@ -23,10 +23,10 @@ Users must use the keyboard to guess a letter. If correct, all instances of that
 
 If incorrect, the user will lose one guess.
 
-THe game ends once the user guesses all letters in the chosen word, or all 6 guesses have been used.
+The game ends once the user guesses all letters in the chosen word, or all 6 guesses have been used.
 
-## Authors
+### Authors
 
-* **Lisa Vinson** - *Initial work* - [LiVinson]https://github.com/LiVinson
+* **Lisa Vinson** - [LiVinson](https://github.com/LiVinson)
 
 
