@@ -7,9 +7,7 @@ var Letters = function (newChar) {
 };
 
 Letters.prototype.specChars = function () {
-    if (!this.letter.match(/^[A-Za-z]+$/)) {
-    // if (!this.letter.replace(/\s/g, '').length || !this.letter.match(/^[A-Za-z]+$/)) { //If character has a length of 0 (false) after removing (i.e. a space) or if not a match to letters
-        // string only contained whitespace (ie. spaces, tabs or line breaks)
+    if (!this.letter.match(/^[A-Za-z]+$/)) { //Checks if letter is a special character, and sets guessed to true so it displays
         this.guessed = true;
     }
 };
